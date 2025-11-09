@@ -1,0 +1,31 @@
+.kitap-bing-none {
+  display: none !important;
+}
+.kitap-bing-ignore.kitap-bing-open {
+  background-color: #eeeeee !important;
+  border-radius: 4px;
+}
+.kitap-bing-ignore-title {
+  text-decoration: line-through;
+  cursor: pointer;
+}
+.kitap-bing-ignore-title:hover {
+  background-color: #eeeeee;
+}
+.kitap-bing-ignore > :not(.kitap-bing-ignore-title) {
+  transition: display 0.2s ease-in-out;
+}
+
+.kitap-bing-ignore:not(.kitap-bing-open) > :not(.kitap-bing-ignore-title) {
+  display: none !important;
+  transition: display 0.2s ease-in-out;
+}
+
+.kitap-bing-control {
+  margin-left: 4px;
+  z-index: 99999;
+  border-radius: 4px;
+  border: none;
+  font-size: 12px;
+  color: #444;
+}

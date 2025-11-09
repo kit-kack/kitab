@@ -1,0 +1,38 @@
+.input-wrapper {
+  width: 30vw;
+}
+
+.input {
+  border: none !important;
+  text-align: center !important;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  background-color: transparent !important;
+  backdrop-filter: blur(10px);
+  transition: background-color 0.25s;
+}
+
+.input::placeholder {
+  color: #ffffff80 !important;
+}
+
+.input:focus::placeholder {
+  color: #999 !important;
+}
+
+.input:hover {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.input.focus {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dropdown {
+  background-color: transparent !important;
+  backdrop-filter: blur(20px);
+  border: none !important;
+  padding: 4px !important;
+  box-shadow: 0 2px 8px 0 rgba(99, 99, 99, 0.2) !important;
+  transition: all 0.25s;
+  --mantine-color-primary-light-color: #eee;
+}
