@@ -1,8 +1,8 @@
-import { useDndMonitor, useDroppable } from "@dnd-kit/core";
+import { useDndMonitor } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { Button, Text } from "@mantine/core";
 import { RiDragDropLine } from "@remixicon/react";
-import { CSSProperties, useId } from "react";
+import { CSSProperties } from "react";
 import { getActiveSourceInfo } from "./BookmarkItem";
 import { BookmarkOperate } from "./AllBookmarkHall";
 

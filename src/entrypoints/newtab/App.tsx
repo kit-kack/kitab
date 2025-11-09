@@ -1,32 +1,15 @@
-import {
-  ActionIcon,
-  Affix,
-  BackgroundImage,
-  Button,
-  Input,
-  Menu,
-  Modal,
-  Stack,
-  Transition,
-} from "@mantine/core";
+import { Button, Stack } from "@mantine/core";
 import {
   AllBookmarkHall,
   BookmarkOperate,
 } from "./components/bookmarks/AllBookmarkHall";
-import { CacheableIco } from "./components/CacheableIco";
-import { useSearchResult } from "./hooks/useSearchResult";
-import {
-  RiAddLine,
-  RiSearchLine,
-  RiSettings2Fill,
-  RiSettingsLine,
-} from "@remixicon/react";
+import { RiAddLine, RiSettingsLine } from "@remixicon/react";
 import { SearchCenter } from "./components/search/SearchCenter";
 import styles from "./app.module.css";
 import { useAtom } from "jotai";
 import { INPUT_FOCUS_ATOM } from "./store";
-import { useLayoutEffect, useRef, useState } from "react";
-import { useDebounceFn, useEventListener, useMount } from "ahooks";
+import { useRef, useState } from "react";
+import { useMount } from "ahooks";
 import imgUrl from "@/assets/image.png?url";
 import { SettingHall } from "./components/settings/SettingHall";
 import { useContextMenu } from "mantine-contextmenu";

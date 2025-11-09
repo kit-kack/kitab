@@ -1,13 +1,4 @@
-import {
-  Button,
-  Divider,
-  Grid,
-  Input,
-  NativeSelect,
-  SegmentedControl,
-  Select,
-  Space,
-} from "@mantine/core";
+import { Button, Divider, SegmentedControl } from "@mantine/core";
 import { Panel } from "../panel";
 import { LabelFor } from "../components/LabelFor";
 

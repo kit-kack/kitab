@@ -1,7 +1,6 @@
 import { DEFAULT_ICO_APIS } from "@/entrypoints/newtab/hooks/useCacheableIco";
 import { Panel } from "../panel";
 import { CheckIcon, Radio, Table } from "@mantine/core";
-import { RiCheckFill } from "@remixicon/react";
 import { useAtom } from "jotai";
 import { ICO_API_INDEX_ATOM } from "@/entrypoints/newtab/store";
 

@@ -1,20 +1,11 @@
-import { Button, Divider, Menu, Popover, Stack, Text } from "@mantine/core";
+import { Button, Divider, Stack, Text } from "@mantine/core";
 import { WebsiteBookmark } from "../../store";
 import { CacheableIco } from "../CacheableIco";
 import { CSSProperties, MouseEventHandler } from "react";
 import { SortableData, useSortable } from "@dnd-kit/sortable";
-import background from "@/entrypoints/background";
-import { Active, Over, useDndMonitor } from "@dnd-kit/core";
+import { Active, useDndMonitor } from "@dnd-kit/core";
 import { useContextMenu } from "mantine-contextmenu";
-import {
-  RiAddLine,
-  RiAlertLine,
-  RiDeleteBinLine,
-  RiEditLine,
-  RiRefreshLine,
-  RiSendPlaneLine,
-  RiShareBoxLine,
-} from "@remixicon/react";
+import { RiDeleteBinLine, RiEditLine, RiRefreshLine, RiShareBoxLine } from "@remixicon/react";
 import { modals } from "@mantine/modals";
 import { BOOKMARK_EDIT_CONTEXT_MODAL_ID } from "./BookmarkEditContextModal";
 import { BookmarkOperate } from "./AllBookmarkHall";

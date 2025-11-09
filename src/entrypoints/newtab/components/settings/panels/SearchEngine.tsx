@@ -1,24 +1,8 @@
 import { SEARCH_ENGINE_LIST_ATOM } from "@/entrypoints/newtab/store";
-import {
-  ActionIcon,
-  Button,
-  CheckIcon,
-  Input,
-  Radio,
-  Table,
-} from "@mantine/core";
+import { ActionIcon, Button, Input, Table } from "@mantine/core";
 import { useAtom } from "jotai";
 import { Panel } from "../panel";
-import {
-  RiArrowUpLine,
-  RiArrowUpSLine,
-  RiCheckLine,
-  RiCloseLine,
-  RiDeleteBinLine,
-  RiDeleteRow,
-  RiEditLine,
-  RiPencilLine,
-} from "@remixicon/react";
+import { RiArrowUpSLine, RiCheckLine, RiCloseLine, RiPencilLine } from "@remixicon/react";
 import { SearchEngine } from "@/entrypoints/newtab/store/default-search-engine";
 
 function Component() {

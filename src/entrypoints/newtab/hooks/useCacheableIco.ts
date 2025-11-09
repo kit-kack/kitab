@@ -1,4 +1,4 @@
-import { useMount, useBoolean } from "ahooks";
+import { useMount } from "ahooks";
 import { useAtom } from "jotai";
 import { ICO_API_INDEX_ATOM } from "../store";
 

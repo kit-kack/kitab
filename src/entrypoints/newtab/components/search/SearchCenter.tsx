@@ -1,15 +1,5 @@
-import {
-  ActionIcon,
-  Button,
-  Input,
-  Menu,
-  Popover,
-  Stack,
-  Text,
-} from "@mantine/core";
-import { RiSearch2Line } from "@remixicon/react";
+import { Button, Input, Popover } from "@mantine/core";
 import { useSearchResult } from "../../hooks/useSearchResult";
-import { useClickAway } from "ahooks";
 import { ChangeEventHandler } from "react";
 import styles from "./search.module.css";
 import { useAtom } from "jotai";

@@ -1,35 +1,20 @@
-import { useAtom } from "jotai";
-import {
-  WEBSITE_BOOKMARK_LIST_ATOM,
-  WebsiteBookmark,
-  WebsiteBookmarkGroup,
-} from "../../store";
+import { WebsiteBookmark, WebsiteBookmarkGroup } from "../../store";
 import { useWebsiteBookmarkList } from "../../hooks/useWebsiteBookmarkList";
-import { Box, Button, Divider, Menu, Stack, Text } from "@mantine/core";
-import { CacheableIco } from "../CacheableIco";
-import {
-  RiAddLine,
-  RiDeleteBinLine,
-  RiEditLine,
-  RiMenuLine,
-  RiSettingsLine,
-} from "@remixicon/react";
+import { Button, Stack, Text } from "@mantine/core";
+import { RiDeleteBinLine, RiEditLine } from "@remixicon/react";
 import { BookmarkItem, PureBookmarkItem } from "./BookmarkItem";
 import {
-  Active,
   closestCenter,
   DndContext,
   DragEndEvent,
   DragMoveEvent,
   DragOverlay,
-  DragPendingEvent,
   DragStartEvent,
-  Over,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext, SortableData } from "@dnd-kit/sortable";
+import { SortableContext } from "@dnd-kit/sortable";
 import { EmptyPlaceholder } from "./EmptyPlaceholder";
 import { useContextMenu } from "mantine-contextmenu";
 import { modals } from "@mantine/modals";
