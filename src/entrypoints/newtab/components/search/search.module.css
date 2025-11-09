@@ -1,5 +1,9 @@
 .input-wrapper {
-  width: 30vw;
+  width: 25vw;
+  transition: width 0.25s;
+}
+.input-wrapper.focus {
+  width: 26vw;
 }
 
 .input {
