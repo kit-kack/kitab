@@ -30,7 +30,7 @@ const BASE_THEME_LIST = [
   {
     value: "system",
     label: (
-      <Tooltip label="跟随系统">
+      <Tooltip label="跟随系统" openDelay={500}>
         <RiAppsLine size={16} className="block" />
       </Tooltip>
     ),
@@ -38,7 +38,7 @@ const BASE_THEME_LIST = [
   {
     value: "light",
     label: (
-      <Tooltip label="亮色">
+      <Tooltip label="亮色" openDelay={500}>
         <RiSunLine size={16} className="block" />
       </Tooltip>
     ),
@@ -46,7 +46,7 @@ const BASE_THEME_LIST = [
   {
     value: "dark",
     label: (
-      <Tooltip label="暗色">
+      <Tooltip label="暗色" openDelay={500}>
         <RiMoonFill size={16} className="block" />
       </Tooltip>
     ),
@@ -58,7 +58,7 @@ const EXT_THEME_LIST = [
   {
     value: "glass",
     label: (
-      <Tooltip label="高斯模糊">
+      <Tooltip label="高斯模糊" openDelay={500}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
