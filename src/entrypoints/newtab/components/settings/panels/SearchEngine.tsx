@@ -2,8 +2,13 @@ import { SEARCH_ENGINE_LIST_ATOM } from "@/entrypoints/newtab/store";
 import { ActionIcon, Button, Input, Table } from "@mantine/core";
 import { useAtom } from "jotai";
 import { Panel } from "../panel";
-import { RiArrowUpSLine, RiCheckLine, RiCloseLine, RiPencilLine } from "@remixicon/react";
-import { SearchEngine } from "@/entrypoints/newtab/store/default-search-engine";
+import {
+  RiArrowUpSLine,
+  RiCheckLine,
+  RiCloseLine,
+  RiPencilLine,
+} from "@remixicon/react";
+import { SearchEngine } from "@/entrypoints/newtab/store/defaults";
 
 function Component() {
   const [engineList, setEngineList] = useAtom(SEARCH_ENGINE_LIST_ATOM);

@@ -1,8 +1,8 @@
-import { DEFAULT_ICO_APIS } from "@/entrypoints/newtab/hooks/useCacheableIco";
 import { Panel } from "../panel";
 import { CheckIcon, Radio, Table } from "@mantine/core";
 import { useAtom } from "jotai";
 import { ICO_API_INDEX_ATOM } from "@/entrypoints/newtab/store";
+import { DEFAULT_ICO_APIS } from "@/entrypoints/newtab/store/defaults";
 
 function Component() {
   const [index, setIndex] = useAtom(ICO_API_INDEX_ATOM);

@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { DEFAULT_SEARCH_ENGINES } from "./default-search-engine";
+import { DEFAULT_SEARCH_ENGINES } from "./defaults";
 import { useStorageAtom } from "@/utils/jotai";
 
 /**
@@ -36,10 +36,9 @@ export interface WebsiteBookmarkGroup {
 /**
  * website bookmark list
  */
-export const WEBSITE_BOOKMARK_LIST_ATOM = useStorageAtom<WebsiteBookmarkGroup[]>(
-  "local:website_bookmark_list",
-  []
-);
+export const WEBSITE_BOOKMARK_LIST_ATOM = useStorageAtom<
+  WebsiteBookmarkGroup[]
+>("local:website_bookmark_list", []);
 
 /**
  * input focus
@@ -52,3 +51,8 @@ export const INPUT_FOCUS_ATOM = atom(false);
 export const BOOKMARK_EDITOR_ATOM = atom<[string, WebsiteBookmark] | null>(
   null
 );
+
+/**
+ * bg-preset
+ */
+export const BG_PRESET_ATOM = useStorageAtom("local:bg_default", 0);

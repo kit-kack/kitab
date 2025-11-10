@@ -7,14 +7,14 @@ import { RiAddLine, RiSettingsLine } from "@remixicon/react";
 import { SearchCenter } from "./components/search/SearchCenter";
 import styles from "./app.module.css";
 import { useAtom } from "jotai";
-import { INPUT_FOCUS_ATOM } from "./store";
+import { BG_PRESET_ATOM, INPUT_FOCUS_ATOM } from "./store";
 import { useRef, useState } from "react";
 import { useMount } from "ahooks";
-import imgUrl from "@/assets/image.png?url";
 import { SettingHall } from "./components/settings/SettingHall";
 import { useContextMenu } from "mantine-contextmenu";
 import { BOOKMARK_EDIT_CONTEXT_MODAL_ID } from "./components/bookmarks/BookmarkEditContextModal";
 import { modals } from "@mantine/modals";
+import { DEFAULT_BG_PRESETS } from "./store/defaults";
 
 export function App() {
   const [focus] = useAtom(INPUT_FOCUS_ATOM);
@@ -22,6 +22,7 @@ export function App() {
   const [searchCenterHeight, setSearchCenterHeight] = useState(0);
   const { showContextMenu } = useContextMenu();
   const bookmarkOperateRef = useRef<BookmarkOperate>(null);
+  const [bgPresetIndex] = useAtom(BG_PRESET_ATOM);
 
   const applyParentBookmarkOperate = (bookmarkOperate: BookmarkOperate) => {
     bookmarkOperateRef.current = bookmarkOperate;
@@ -84,7 +85,7 @@ export function App() {
     <div className={styles.container} onContextMenu={contextMenuHandler}>
       <div className="-z-[100]">
         <img
-          src={imgUrl}
+          src={DEFAULT_BG_PRESETS[bgPresetIndex].url}
           className={`${styles["full-effect"]} ${styles.img} ${
             focus ? styles.focus : ""
           }`}

@@ -1,4 +1,3 @@
-import { atom, WritableAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 type Key = Parameters<(typeof storage)["getItem"]>[0];

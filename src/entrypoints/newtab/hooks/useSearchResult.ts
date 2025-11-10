@@ -2,50 +2,7 @@ import { useAtom } from "jotai";
 import { SEARCH_FORECAST_INDEX_ATOM } from "../store";
 import { useDebounceEffect } from "ahooks";
 import JSON5 from "json5";
-
-export interface SearchPredictionEngine {
-  value: string;
-  url: string;
-  jsonp?: string;
-  extract: (data: any) => string[];
-}
-
-export const DEFAULT_SEARCH_PREDICTION_ENGINES: SearchPredictionEngine[] = [
-  {
-    value: "Bing",
-    url: "https://api.bing.com/qsonhs.aspx?q=%s", // JSONP : type=cb&
-    extract: (data: any) =>
-      data.AS.Results[0].Suggests.map((obj: any) => obj.Txt),
-  },
-  {
-    value: "Baidu",
-    url: "http://suggestion.baidu.com/su?wd=%s",
-    jsonp: "baidu.sug",
-    extract: (data: any) => data.s,
-  },
-  {
-    value: "Google",
-    url: "http://suggestqueries.google.com/complete/search?client=youtube&q=前端",
-    jsonp: "google.ac.h",
-    extract: (data: any) => data[1].map((arr: any) => arr[0]),
-  },
-  {
-    value: "360", //&callback=window.so.sug
-    url: "https://sug.so.360.cn/suggest?encodein=utf-8&encodeout=utf-8&format=json&word=%s",
-    extract: (data: any) => data.result.map((obj: any) => obj.word),
-  },
-  {
-    value: "Sogou",
-    url: "https://sor.html5.qq.com/api/getsug?key=%s",
-    jsonp: "sogou.sug",
-    extract: (data: any) => data[1],
-  },
-  {
-    value: "Taobao",
-    url: "https://suggest.taobao.com/sug?code=utf-8&q=%s",
-    extract: (data: any) => data.result.map((arr: any) => arr[0]),
-  },
-];
+import { DEFAULT_SEARCH_PREDICTION_ENGINES } from "../store/defaults";
 
 export async function requestSearchResult(url: string, returnAsJsonP: boolean) {
   // if (true) {

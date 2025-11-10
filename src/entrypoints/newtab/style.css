@@ -3,3 +3,7 @@
 }
 @tailwind components;
 @tailwind utilities;
+
+@theme {
+  --tw-duration: 0.5s;
+}

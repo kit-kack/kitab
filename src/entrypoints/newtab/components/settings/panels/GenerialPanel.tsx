@@ -8,28 +8,6 @@ function Component() {
       <LabelFor label="介绍">
         <span>欢迎使用 kitab</span>
       </LabelFor>
-      <Divider className="w-full basis-[100%]" label="主题" />
-      <LabelFor label="选项卡">
-        <SegmentedControl
-          data={["system", "dark", "light"]}
-          size="xs"
-          withItemsBorders={false}
-        />
-      </LabelFor>
-      <LabelFor label="搜索框">
-        <SegmentedControl
-          data={["system", "dark", "light", "blur"]}
-          size="xs"
-          withItemsBorders={false}
-        />
-      </LabelFor>
-      <LabelFor label="其他部分">
-        <SegmentedControl
-          data={["system", "dark", "light", "blur"]}
-          size="xs"
-          withItemsBorders={false}
-        />
-      </LabelFor>
 
       <Divider className="w-full basis-[100%]" label="数据" />
       <div className="flex justify-start gap-[4px]">

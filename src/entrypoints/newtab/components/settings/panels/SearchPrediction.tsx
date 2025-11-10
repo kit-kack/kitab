@@ -1,8 +1,8 @@
 import { CheckIcon, Radio, Table } from "@mantine/core";
 import { Panel } from "../panel";
-import { DEFAULT_SEARCH_PREDICTION_ENGINES } from "@/entrypoints/newtab/hooks/useSearchResult";
 import { useAtom } from "jotai";
 import { SEARCH_FORECAST_INDEX_ATOM } from "@/entrypoints/newtab/store";
+import { DEFAULT_SEARCH_PREDICTION_ENGINES } from "@/entrypoints/newtab/store/defaults";
 
 function Component() {
   const [index, setIndex] = useAtom(SEARCH_FORECAST_INDEX_ATOM);
