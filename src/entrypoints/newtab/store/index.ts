@@ -1,47 +1,26 @@
 import { atom } from "jotai";
-import { DEFAULT_SEARCH_ENGINES, SearchEngine } from "./default-search-engine";
+import { DEFAULT_SEARCH_ENGINES } from "./default-search-engine";
+import { useStorageAtom } from "@/utils/jotai";
 
 /**
  * ico api index
  */
-export const ICO_API_INDEX_ATOM = atom(
-  async () => {
-    return storage.getItem<number>("local:ico_api_index", {
-      fallback: 0,
-    });
-  },
-  (get, set, index: number) => {
-    storage.setItem("local:ico_api_index", index);
-  }
-);
+export const ICO_API_INDEX_ATOM = useStorageAtom("local:ico_api_index", 0);
 
 /**
  * search forecast  api index
  */
-export const SEARCH_FORECAST_INDEX_ATOM = atom(
-  async () => {
-    return storage.getItem<number>("local:search_forecast_index", {
-      fallback: 0,
-    });
-  },
-  (get, set, index: number) => {
-    storage.setItem("local:search_forecast_index", index);
-  }
+export const SEARCH_FORECAST_INDEX_ATOM = useStorageAtom(
+  "local:search_forecast_index",
+  0
 );
 
 /**
  * default search engine list
  */
-export const SEARCH_ENGINE_LIST_ATOM = atom(
-  async () => {
-    return storage.getItem<SearchEngine[]>("local:search_engine_list", {
-      fallback: DEFAULT_SEARCH_ENGINES,
-    });
-  },
-  (get, set, list: SearchEngine[]) => {
-    console.log("write SEARCH_ENGINE_LIST_ATOM", list);
-    storage.setItem("local:search_engine_list", list);
-  }
+export const SEARCH_ENGINE_LIST_ATOM = useStorageAtom(
+  "local:search_engine_list",
+  DEFAULT_SEARCH_ENGINES
 );
 
 export interface WebsiteBookmark {
@@ -57,19 +36,9 @@ export interface WebsiteBookmarkGroup {
 /**
  * website bookmark list
  */
-export const WEBSITE_BOOKMARK_LIST_ATOM = atom(
-  async () => {
-    console.trace("read WEBSITE_BOOKMARK_LIST_ATOM");
-    return storage.getItem<WebsiteBookmarkGroup[]>(
-      "local:website_bookmark_list",
-      {
-        fallback: [],
-      }
-    );
-  },
-  (get, set, list: WebsiteBookmarkGroup[]) => {
-    storage.setItem("local:website_bookmark_list", list);
-  }
+export const WEBSITE_BOOKMARK_LIST_ATOM = useStorageAtom<WebsiteBookmarkGroup[]>(
+  "local:website_bookmark_list",
+  []
 );
 
 /**
@@ -77,8 +46,9 @@ export const WEBSITE_BOOKMARK_LIST_ATOM = atom(
  */
 export const INPUT_FOCUS_ATOM = atom(false);
 
-
 /**
  * add or edit bookmark
  */
-export const BOOKMARK_EDITOR_ATOM = atom<[string, WebsiteBookmark] | null>(null);
+export const BOOKMARK_EDITOR_ATOM = atom<[string, WebsiteBookmark] | null>(
+  null
+);

@@ -18,8 +18,6 @@ export function SearchCenter() {
   const [searchEngineList, setSearchEngineList] = useAtom(
     SEARCH_ENGINE_LIST_ATOM
   );
-  const [localSearchEngineList, setLocalSearchEngineList] =
-    useState(searchEngineList);
 
   const searchEngineChooser = useMemo(() => {
     function adjustToTop(ind: number) {
@@ -27,12 +25,11 @@ export function SearchCenter() {
         return;
       }
       ref.current!.focus();
-      const newEngineList = [...localSearchEngineList];
+      const newEngineList = [...searchEngineList];
       const engine = newEngineList[ind];
       newEngineList.splice(ind, 1);
       newEngineList.splice(0, 0, engine);
       setSearchEngineList(newEngineList);
-      setLocalSearchEngineList(newEngineList);
     }
 
     return (
@@ -46,13 +43,13 @@ export function SearchCenter() {
             }}
           >
             <CacheableIco
-              url={localSearchEngineList[0].url}
-              key={localSearchEngineList[0].value}
+              url={searchEngineList[0].url}
+              key={searchEngineList[0].value}
             />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
-          {localSearchEngineList.map((engine, index) => {
+          {searchEngineList.map((engine, index) => {
             return (
               <Button
                 rightSection={
@@ -75,7 +72,7 @@ export function SearchCenter() {
         </Menu.Dropdown>
       </Menu>
     );
-  }, [searchEngineList, localSearchEngineList, focus]);
+  }, [searchEngineList, focus]);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearch(e.target.value);

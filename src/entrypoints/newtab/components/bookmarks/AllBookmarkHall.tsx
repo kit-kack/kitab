@@ -57,8 +57,6 @@ export function AllBookmarkHall({
   applyParentBookmarkOperate,
 }: AllBookmarkHallProps) {
   const [bookmarkGroupList, setBookmarkGroupList] = useWebsiteBookmarkList();
-  const [localBookmarkGroupList, setLocalBookmarkGroupList] =
-    useState(bookmarkGroupList);
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -90,7 +88,7 @@ export function AllBookmarkHall({
     () =>
       applyParentBookmarkOperate({
         moveBookmark(sourceGroup, sourceIndex, targetGroup, targetIndex) {
-          const newBookmarkGroupList = [...localBookmarkGroupList];
+          const newBookmarkGroupList = [...bookmarkGroupList];
           const sourceGroupIndex = newBookmarkGroupList.findIndex(
             (group) => group.name === sourceGroup
           );
@@ -108,11 +106,10 @@ export function AllBookmarkHall({
           }
           sourceGroupItem.children.splice(sourceIndex, 1);
           targetGroupItem.children.splice(targetIndex, 0, sourceBookmark);
-          setLocalBookmarkGroupList(newBookmarkGroupList);
           setBookmarkGroupList(newBookmarkGroupList);
         },
         saveBookmark(oldGroup, oldIndex, newGroup, bookmark) {
-          const newBookmarkGroupList = [...localBookmarkGroupList];
+          const newBookmarkGroupList = [...bookmarkGroupList];
           if (oldGroup && oldIndex !== undefined) {
             const groupIndex = newBookmarkGroupList.findIndex(
               (group) => group.name === oldGroup
@@ -121,7 +118,6 @@ export function AllBookmarkHall({
               const group = newBookmarkGroupList[groupIndex];
               if (newGroup === oldGroup) {
                 group.children[oldIndex] = bookmark;
-                setLocalBookmarkGroupList(newBookmarkGroupList);
                 setBookmarkGroupList(newBookmarkGroupList);
                 return;
               } else {
@@ -144,11 +140,10 @@ export function AllBookmarkHall({
           }
           group.children.push(bookmark);
           console.log(newBookmarkGroupList);
-          setLocalBookmarkGroupList(newBookmarkGroupList);
           setBookmarkGroupList(newBookmarkGroupList);
         },
         deleteBookmark(groupName, index) {
-          const newBookmarkGroupList = [...localBookmarkGroupList];
+          const newBookmarkGroupList = [...bookmarkGroupList];
           const groupIndex = newBookmarkGroupList.findIndex(
             (group) => group.name === groupName
           );
@@ -160,11 +155,10 @@ export function AllBookmarkHall({
             return;
           }
           groupItem.children.splice(index, 1);
-          setLocalBookmarkGroupList(newBookmarkGroupList);
           setBookmarkGroupList(newBookmarkGroupList);
         },
         renameBookmarkGroup(sourceGroupName, newGroupName) {
-          const newBookmarkGroupList = localBookmarkGroupList.map((item) => {
+          const newBookmarkGroupList = bookmarkGroupList.map((item) => {
             if (item.name === sourceGroupName) {
               return {
                 ...item,
@@ -173,25 +167,21 @@ export function AllBookmarkHall({
             }
             return item;
           });
-          setLocalBookmarkGroupList(newBookmarkGroupList);
           setBookmarkGroupList(newBookmarkGroupList);
         },
 
         deleteGroup(groupName) {
-          const newBookmarkGroupList = localBookmarkGroupList.filter(
+          const newBookmarkGroupList = bookmarkGroupList.filter(
             (item) => item.name !== groupName
           );
-          setLocalBookmarkGroupList(newBookmarkGroupList);
           setBookmarkGroupList(newBookmarkGroupList);
         },
 
         getGroupList() {
-          return localBookmarkGroupList.map((item) => item.name);
+          return bookmarkGroupList.map((item) => item.name);
         },
       }),
     [
-      localBookmarkGroupList,
-      setLocalBookmarkGroupList,
       bookmarkGroupList,
       setBookmarkGroupList,
     ]
@@ -288,7 +278,7 @@ export function AllBookmarkHall({
         onDragMove={handleDragMove}
         onDragEnd={handleDragEnd}
       >
-        {localBookmarkGroupList.map((group) => (
+        {bookmarkGroupList.map((group) => (
           <div key={group.name} className="grid grid-cols-[200px_1fr]">
             <div
               className="pt-[12px] mr-[10px] text-[12px]   w-[200px] h-full"

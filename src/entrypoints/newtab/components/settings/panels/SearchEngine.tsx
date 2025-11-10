@@ -7,7 +7,6 @@ import { SearchEngine } from "@/entrypoints/newtab/store/default-search-engine";
 
 function Component() {
   const [engineList, setEngineList] = useAtom(SEARCH_ENGINE_LIST_ATOM);
-  const [localList, setLocalList] = useState<SearchEngine[]>(engineList);
   const [editingMap, setEditingMap] = useState<Record<string, SearchEngine>>(
     {}
   );
@@ -16,62 +15,58 @@ function Component() {
     if (ind === 0) {
       return;
     }
-    const newEngineList = [...localList];
+    const newEngineList = [...engineList];
     const beforeEngine = newEngineList[ind - 1];
     const engine = newEngineList[ind];
     newEngineList.splice(ind - 1, 2, engine, beforeEngine);
     setEngineList(newEngineList);
-    setLocalList(newEngineList);
     console.log("adjustSort", newEngineList);
   }
 
   function addEngine() {
-    const newEngineList = [...localList];
+    const newEngineList = [...engineList];
     newEngineList.push({
       value: "新搜索引擎",
       url: "todo",
     });
     setEngineList(newEngineList);
-    setLocalList(newEngineList);
   }
 
   function removeEngineOrRemoveEditing(ind: number, isEditing: boolean) {
     if (isEditing) {
       const newEditingMap = { ...editingMap };
-      delete newEditingMap[localList[ind].value];
+      delete newEditingMap[engineList[ind].value];
       setEditingMap(newEditingMap);
       return;
     }
-    const newEngineList = [...localList];
+    const newEngineList = [...engineList];
     newEngineList.splice(ind, 1);
     setEngineList(newEngineList);
-    setLocalList(newEngineList);
   }
 
   function controlEdit(ind: number, finish: boolean) {
-    const editData = editingMap[localList[ind].value];
+    const editData = editingMap[engineList[ind].value];
     if (editData) {
       // 完成
       if (finish) {
-        const newEngineList = [...localList];
+        const newEngineList = [...engineList];
         newEngineList[ind] = editData;
         setEngineList(newEngineList);
-        setLocalList(newEngineList);
         return;
       }
     }
     if (!finish) {
       // 添加
       const newEditingMap = { ...editingMap };
-      const engine = localList[ind];
+      const engine = engineList[ind];
       newEditingMap[engine.value] = engine;
       setEditingMap(newEditingMap);
     }
   }
 
-  console.log("rerender", engineList, localList);
+  console.log("rerender", engineList, engineList);
 
-  const rows = localList.map((engine, ind) => {
+  const rows = engineList.map((engine, ind) => {
     const editData = editingMap[engine.value];
     const isEditing = editData != null;
     return (
