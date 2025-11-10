@@ -30,11 +30,11 @@ export const DEFAULT_SEARCH_ENGINES: SearchEngine[] = [
 export const DEFAULT_BG_PRESETS = [
   {
     title: "Bing今日壁纸",
-    url: "https://at.oiik.cn/api/bingimg.x?thumb=1",
+    url: "https://at.oiik.cn/api/bingimg.x",
   },
   {
     title: "Bing随机壁纸",
-    url: "https://at.oiik.cn/api/bingimg.x?random&thumb=1",
+    url: "https://at.oiik.cn/api/bingimg.x?random",
   },
   {
     title: "预设1",
