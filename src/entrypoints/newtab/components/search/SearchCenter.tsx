@@ -114,11 +114,7 @@ export function SearchCenter() {
 
   return (
     <div>
-      <div
-        className={`w-full text-center text-[40px] text-[${
-          theme.search === "light" ? "#fff" : "#ccc"
-        }] mb-[20px]`}
-      >
+      <div className={`w-full text-center text-[40px] mb-[20px] text-[#fff]`}>
         {intl.format(new Date())}
       </div>
       <div
@@ -145,6 +141,7 @@ export function SearchCenter() {
                 <ActionIcon
                   variant="subtle"
                   radius="xl"
+                  color={theme.search === "light" ? void 0 : "#ccc"}
                   className={focus ? "opacity-100" : "opacity-0"}
                   onClick={() => redirectToWeb(0)}
                 >

@@ -4,9 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>新标签页</title>
+    <style>
+      #mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #323232;
+      }
+      .fade-in {
+        opacity: 0;
+        z-index: 0;
+        animation: fadeIn 1s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 1;
+          background-color: #323232;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
   </head>
-  <body>
+  <body style="background-color: #323232">
     <!-- ... -->
+    <div id="mask"></div>
     <div id="app"></div>
     <script type="module" src="./main.tsx"></script>
   </body>

@@ -31,6 +31,7 @@ export function App() {
 
   useMount(() => {
     setSearchCenterHeight(searchRef.current?.offsetHeight || 0);
+    document.querySelector("#mask")!.classList.add("fade-in");
   });
 
   console.log("searchCenterHeight", searchCenterHeight);
