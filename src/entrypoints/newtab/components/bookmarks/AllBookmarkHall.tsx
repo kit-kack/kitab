@@ -1,5 +1,4 @@
-import { WebsiteBookmark, WebsiteBookmarkGroup } from "../../store";
-import { useWebsiteBookmarkList } from "../../hooks/useWebsiteBookmarkList";
+import { WEBSITE_BOOKMARK_LIST_ATOM, WebsiteBookmark, WebsiteBookmarkGroup } from "../../store";
 import { Button, Stack, Text } from "@mantine/core";
 import { RiBox2Line, RiDeleteBinLine, RiEditLine } from "@remixicon/react";
 import { BookmarkItem, PureBookmarkItem } from "./BookmarkItem";
@@ -21,9 +20,9 @@ import { modals } from "@mantine/modals";
 import { showDangerModal } from "@/utils/modal";
 import { BOOKMARK_GROUP_EDIT_CONTEXT_MODAL_ID } from "./BookmarkGroupEditContextModal";
 import { useDirectTheme } from "../../hooks/useDirectTheme";
+import { useAtom } from "jotai";
 
 export interface AllBookmarkHallProps {
-  editMode?: boolean;
   applyParentBookmarkOperate: (
     bookmarkOperate: BookmarkOperate
   ) => BookmarkOperate;
@@ -56,7 +55,7 @@ export interface BookmarkOperate {
 export function AllBookmarkHall({
   applyParentBookmarkOperate,
 }: AllBookmarkHallProps) {
-  const [bookmarkGroupList, setBookmarkGroupList] = useWebsiteBookmarkList();
+  const [bookmarkGroupList, setBookmarkGroupList] = useAtom(WEBSITE_BOOKMARK_LIST_ATOM)
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {

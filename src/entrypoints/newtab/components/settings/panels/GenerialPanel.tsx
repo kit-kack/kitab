@@ -7,6 +7,7 @@ import {
   Tooltip,
   Image,
   Switch,
+  FileButton,
 } from "@mantine/core";
 import { Panel } from "../panel";
 import { LabelFor } from "../components/LabelFor";
@@ -23,6 +24,7 @@ import {
   BG_PRESET_ATOM,
   THEME_ATOM,
 } from "@/entrypoints/newtab/store";
+import { importBackup } from "@/utils/backup";
 
 const BASE_THEME_LIST = [
   {
@@ -101,7 +103,7 @@ function Component() {
         />
       </LabelFor>
 
-     {/* <LabelFor label="高斯模糊">
+      {/* <LabelFor label="高斯模糊">
         <Switch
           defaultChecked={theme.glass}
           onChange={(e) => setTheme({ ...theme, glass: e.target.checked })}
@@ -118,7 +120,7 @@ function Component() {
       />
       <Grid columns={10}>
         {DEFAULT_BG_PRESETS.map((preset, index) => (
-          <Grid.Col span={2}>
+          <Grid.Col span={2} key={index}>
             <Stack justify="center" align="center" gap={4}>
               <Button
                 variant="transparent"
@@ -159,15 +161,16 @@ function Component() {
         label="数据"
       />
       <div className="flex justify-start gap-[4px]">
-        <Button variant="subtle" color="red" size="xs">
-          重置
-        </Button>
-        <Button variant="subtle" size="xs">
+        <Button variant="subtle" size="xs" onClick={exportBackup}>
           导出
         </Button>
-        <Button variant="subtle" size="xs">
-          导入
-        </Button>
+        <FileButton accept=".zip" onChange={importBackup}>
+          {(props) => (
+            <Button variant="subtle" size="xs" {...props}>
+              导入
+            </Button>
+          )}
+        </FileButton>
       </div>
     </form>
   );
