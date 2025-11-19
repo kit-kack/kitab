@@ -1,23 +1,33 @@
 import { Button, Divider, Stack, Text } from "@mantine/core";
-import { WebsiteBookmark } from "../../store";
+import { THEME_ATOM, WebsiteBookmark } from "../../store";
 import { CacheableIco } from "../CacheableIco";
 import { CSSProperties, MouseEventHandler } from "react";
 import { SortableData, useSortable } from "@dnd-kit/sortable";
 import { Active, useDndMonitor } from "@dnd-kit/core";
 import { useContextMenu } from "mantine-contextmenu";
-import { RiDeleteBinLine, RiEditLine, RiRefreshLine, RiShareBoxLine } from "@remixicon/react";
+import {
+  RiDeleteBinLine,
+  RiEditLine,
+  RiRefreshLine,
+  RiShareBoxLine,
+} from "@remixicon/react";
 import { modals } from "@mantine/modals";
 import { BOOKMARK_EDIT_CONTEXT_MODAL_ID } from "./BookmarkEditContextModal";
 import { BookmarkOperate } from "./AllBookmarkHall";
 import { showDangerModal } from "@/utils/modal";
 import { removeIcoCache } from "../../hooks/useCacheableIco";
+import { useAtom } from "jotai";
+import { useDirectTheme } from "../../hooks/useDirectTheme";
 
 export function PureBookmarkItem({ bookmark }: { bookmark: WebsiteBookmark }) {
+  const theme = useDirectTheme();
   return (
     <Button
       variant="subtle"
       classNames={{
-        root: "text-[16px] group mb-[16px] hover:backdrop-blur-[4px] transition-all duration-300",
+        root: `text-[16px] group mb-[16px] hover:backdrop-blur-[4px] transition-all duration-300 ${
+          theme.bookmark === "light" ? "hover:bg-[#fff1]!" : null
+        }`,
         label: "mr-auto",
       }}
       style={{
@@ -64,6 +74,7 @@ export function BookmarkItem({
 }) {
   const id = `${group}-${index}-${bookmark.name}`;
   const [refreshKey, setRefreshKey] = useState(0);
+  const theme = useDirectTheme();
 
   const { attributes, listeners, setNodeRef, transition, over, rect } =
     useSortable({
@@ -100,7 +111,11 @@ export function BookmarkItem({
 
   const style: CSSProperties = {
     transition,
-    background: isOver ? "rgba(0, 0, 0, 0.1)" : "transparent",
+    background: isOver
+      ? theme.bookmark === "light"
+        ? "#fff2"
+        : "rgba(0, 0, 0, 0.1)"
+      : "transparent",
   };
   if (isOver) {
     if (isLeft) {
@@ -203,13 +218,16 @@ export function BookmarkItem({
       {...attributes}
       variant="subtle"
       classNames={{
-        root: "text-[16px] group mb-[16px] hover:backdrop-blur-[4px] transition-all duration-300",
+        root: `text-[16px] group mb-[16px] hover:backdrop-blur-[4px] transition-all duration-300 ${
+          theme.bookmark === "light" ? "hover:bg-[#fff1]!" : 'h'
+        }`,
         label: "mr-auto",
       }}
       style={{
         ...style,
         "--button-justify": "flex-start",
         fontFamily: "Consolas",
+        "--text-color": theme.bookmark === "light" ? "#fff" : "#444",
       }}
       w={200}
       onContextMenu={handleBookmarkContextMenu}

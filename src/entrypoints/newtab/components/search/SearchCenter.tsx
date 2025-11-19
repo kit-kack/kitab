@@ -3,7 +3,11 @@ import { useSearchResult } from "../../hooks/useSearchResult";
 import { ChangeEventHandler, KeyboardEventHandler } from "react";
 import styles from "./search.module.css";
 import { useAtom } from "jotai";
-import { INPUT_FOCUS_ATOM, SEARCH_ENGINE_LIST_ATOM } from "../../store";
+import {
+  INPUT_FOCUS_ATOM,
+  SEARCH_ENGINE_LIST_ATOM,
+  THEME_ATOM,
+} from "../../store";
 import { RiSearchLine } from "@remixicon/react";
 import { CacheableIco } from "../CacheableIco";
 import { useClickAway } from "ahooks";
@@ -18,6 +22,7 @@ export function SearchCenter() {
   const [searchEngineList, setSearchEngineList] = useAtom(
     SEARCH_ENGINE_LIST_ATOM
   );
+  const [theme] = useAtom(THEME_ATOM);
 
   const searchEngineChooser = useMemo(() => {
     function adjustToTop(ind: number) {
@@ -109,7 +114,11 @@ export function SearchCenter() {
 
   return (
     <div>
-      <div className="w-full text-center text-[40px] text-[#ffffff] mb-[20px]">
+      <div
+        className={`w-full text-center text-[40px] text-[${
+          theme.search === "light" ? "#fff" : "#ccc"
+        }] mb-[20px]`}
+      >
         {intl.format(new Date())}
       </div>
       <div
@@ -146,8 +155,10 @@ export function SearchCenter() {
               classNames={{
                 wrapper: `${styles["input-wrapper"]} ${
                   focus ? styles.focus : ""
+                } ${styles[theme.search]}`,
+                input: `${styles.input} ${focus ? styles.focus : ""} ${
+                  styles[theme.search]
                 }`,
-                input: `${styles.input} ${focus ? styles.focus : ""}`,
               }}
             />
           </Popover.Target>
@@ -155,7 +166,7 @@ export function SearchCenter() {
           {result.length > 0 && focus && (
             <Popover.Dropdown
               classNames={{
-                dropdown: styles.dropdown,
+                dropdown: `${styles.dropdown} ${styles[theme.search]}`,
               }}
             >
               {result.map((item, index) => (
@@ -166,6 +177,11 @@ export function SearchCenter() {
                   justify="space-between"
                   className="hover:bg-[#f5f5f5] text-left!"
                   key={item + index}
+                  styles={{
+                    label: {
+                      color: theme.search === "light" ? "#fff" : "#ccc",
+                    },
+                  }}
                 >
                   {item}
                 </Button>

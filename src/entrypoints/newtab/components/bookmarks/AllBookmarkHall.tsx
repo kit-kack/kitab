@@ -20,6 +20,7 @@ import { useContextMenu } from "mantine-contextmenu";
 import { modals } from "@mantine/modals";
 import { showDangerModal } from "@/utils/modal";
 import { BOOKMARK_GROUP_EDIT_CONTEXT_MODAL_ID } from "./BookmarkGroupEditContextModal";
+import { useDirectTheme } from "../../hooks/useDirectTheme";
 
 export interface AllBookmarkHallProps {
   editMode?: boolean;
@@ -70,6 +71,7 @@ export function AllBookmarkHall({
   const [currentDraggingBookmark, setCurrentDraggingBookmark] =
     useState<WebsiteBookmark | null>(null);
   const { showContextMenu } = useContextMenu();
+  const theme = useDirectTheme();
 
   function handleDragStart(event: DragStartEvent) {
     const pointerEvent = event.activatorEvent as PointerEvent;
@@ -181,10 +183,7 @@ export function AllBookmarkHall({
           return bookmarkGroupList.map((item) => item.name);
         },
       }),
-    [
-      bookmarkGroupList,
-      setBookmarkGroupList,
-    ]
+    [bookmarkGroupList, setBookmarkGroupList]
   );
 
   const renderBookmarkItems = (group: WebsiteBookmarkGroup) => {
@@ -279,7 +278,12 @@ export function AllBookmarkHall({
         onDragEnd={handleDragEnd}
       >
         {bookmarkGroupList.map((group) => (
-          <div key={group.name} className="grid grid-cols-[200px_1fr]">
+          <div
+            key={group.name}
+            className={`grid grid-cols-[200px_1fr] ${
+              theme.bookmark === "light" ? "text-[#fff]" : "text-[#444]"
+            }`}
+          >
             <div
               className="pt-[12px] mr-[10px] text-[12px]   w-[200px] h-full"
               onContextMenu={handleBookmarkGroupContextMenu(group)}

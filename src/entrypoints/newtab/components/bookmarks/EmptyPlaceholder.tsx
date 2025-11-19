@@ -5,6 +5,7 @@ import { RiDragDropLine } from "@remixicon/react";
 import { CSSProperties } from "react";
 import { getActiveSourceInfo } from "./BookmarkItem";
 import { BookmarkOperate } from "./AllBookmarkHall";
+import { useDirectTheme } from "../../hooks/useDirectTheme";
 
 export function EmptyPlaceholder({
   group,
@@ -14,17 +15,10 @@ export function EmptyPlaceholder({
   bookmarkOperate: BookmarkOperate;
 }) {
   const id = "empty-placeholder";
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    over,
-    rect,
-  } = useSortable({
+  const { setNodeRef, transition, over } = useSortable({
     id: id,
   });
+  const theme = useDirectTheme();
   const isOver = over !== null && over.id === id;
 
   useDndMonitor({
@@ -44,11 +38,19 @@ export function EmptyPlaceholder({
       );
     },
   });
-  console.log("empty", isOver);
   const style: CSSProperties = {
     transition,
     // borderColor: isOver ? "#1e90ff" : void 0,
-    background: isOver ? "rgba(0, 0, 0, 0.1)" : "transparent",
+    background: isOver
+      ? theme.bookmark === "light"
+        ? "#fff2"
+        : "rgba(0, 0, 0, 0.1)"
+      : "transparent",
+    borderColor: isOver
+      ? theme.bookmark === "light"
+        ? "#fff"
+        : "#444"
+      : void 0,
   };
   return (
     <Button
@@ -62,9 +64,15 @@ export function EmptyPlaceholder({
         ...style,
         "--button-justify": "flex-start",
         fontFamily: "Consolas",
+        "--text-color": theme.bookmark === "light" ? "#fff" : "#444",
       }}
       w={200}
-      leftSection={<RiDragDropLine size={16} />}
+      leftSection={
+        <RiDragDropLine
+          size={16}
+          color={theme.bookmark === "light" ? "#fff" : "#444"}
+        />
+      }
     >
       <Text truncate="end">移动至此分组</Text>
     </Button>

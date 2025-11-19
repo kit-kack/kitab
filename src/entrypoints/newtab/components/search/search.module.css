@@ -13,30 +13,53 @@
   background-color: transparent !important;
   backdrop-filter: blur(10px);
   transition: background-color 0.25s;
+  color: var(--theme-text-color) !important;
+}
+.light {
+  --theme-text-color: #272727 !important;
+  --theme-input-hover-bg-color: rgba(255, 255, 255, 0.4);
+  --theme-input-focus-bg-color: rgba(255, 255, 255, 0.8);
+  --theme-placeholder-color: #ffffff80 !important;
+  --theme-placeholder-focus-color: #999 !important;
+}
+.dark {
+  --theme-text-color: #eee !important;
+  --theme-input-hover-bg-color: rgba(0, 0, 0, 0.4);
+  --theme-input-focus-bg-color: rgba(0, 0, 0, 0.6);
+  --theme-placeholder-color: #4448 !important;
+  --theme-placeholder-focus-color: #999 !important;
 }
 
 .input::placeholder {
-  color: #ffffff80 !important;
+  color: var(--theme-placeholder-color) !important;
 }
 
 .input:focus::placeholder {
-  color: #999 !important;
+  color: var(--theme-placeholder-focus-color) !important;
 }
 
 .input:hover {
-  background-color: rgba(255, 255, 255, 0.4) !important;
+  background-color: var(--theme-input-hover-bg-color) !important;
 }
-
 .input.focus {
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  background-color: var(--theme-input-focus-bg-color) !important;
 }
 
 .dropdown {
-  background-color: transparent !important;
-  backdrop-filter: blur(20px);
   border: none !important;
   padding: 4px !important;
-  box-shadow: 0 2px 8px 0 rgba(99, 99, 99, 0.2) !important;
+  backdrop-filter: blur(20px);
   transition: all 0.25s;
-  --mantine-color-primary-light-color: #eee;
+
+  &.dark {
+    --mantine-color-primary-light-color: #444;
+    background-color: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  &.light {
+    background-color: transparent !important;
+
+    --mantine-color-primary-light-color: #eee;
+    box-shadow: 0 2px 8px 0 rgba(99, 99, 99, 0.2) !important;
+  }
 }

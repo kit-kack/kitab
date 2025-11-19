@@ -103,6 +103,9 @@
     }
   }
 }
+[data-mantine-color-scheme="dark"] .mantine-Menu-dropdown {
+  --popover-border-color: #191c25 !important;
+}
 
 /* Color Input */
 .mantine-ColorInput-dropdown {
@@ -799,4 +802,7 @@
 /* Chart Tooltip */
 .mantine-ChartTooltip-tooltip {
   border: 1px solid var(--mantine-color-default-border);
+}
+[data-mantine-color-scheme="dark"] .mantine-contextmenu {
+  --mantine-color-dark-4: #191c25;
 }

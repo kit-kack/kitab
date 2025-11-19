@@ -56,3 +56,23 @@ export const BOOKMARK_EDITOR_ATOM = atom<[string, WebsiteBookmark] | null>(
  * bg-preset
  */
 export const BG_PRESET_ATOM = useStorageAtom("local:bg_default", 0);
+
+export type BaseThemeVariant = "light" | "dark";
+export type ThemeVariant = BaseThemeVariant | "system";
+
+export interface Theme<T extends ThemeVariant> {
+  main: T;
+  search: T;
+  bookmark: T;
+  glass: boolean;
+}
+
+/**
+ * theme
+ */
+export const THEME_ATOM = useStorageAtom<Theme<ThemeVariant>>("local:theme", {
+  main: "system",
+  search: "system",
+  bookmark: "system",
+  glass: false,
+});
