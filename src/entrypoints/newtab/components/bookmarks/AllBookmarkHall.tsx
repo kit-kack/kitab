@@ -1,7 +1,7 @@
 import { WebsiteBookmark, WebsiteBookmarkGroup } from "../../store";
 import { useWebsiteBookmarkList } from "../../hooks/useWebsiteBookmarkList";
 import { Button, Stack, Text } from "@mantine/core";
-import { RiDeleteBinLine, RiEditLine } from "@remixicon/react";
+import { RiBox2Line, RiDeleteBinLine, RiEditLine } from "@remixicon/react";
 import { BookmarkItem, PureBookmarkItem } from "./BookmarkItem";
 import {
   closestCenter,
@@ -54,7 +54,6 @@ export interface BookmarkOperate {
 }
 
 export function AllBookmarkHall({
-  editMode,
   applyParentBookmarkOperate,
 }: AllBookmarkHallProps) {
   const [bookmarkGroupList, setBookmarkGroupList] = useWebsiteBookmarkList();
@@ -111,6 +110,7 @@ export function AllBookmarkHall({
           setBookmarkGroupList(newBookmarkGroupList);
         },
         saveBookmark(oldGroup, oldIndex, newGroup, bookmark) {
+          const finalNewGroup = newGroup.trim();
           const newBookmarkGroupList = [...bookmarkGroupList];
           if (oldGroup && oldIndex !== undefined) {
             const groupIndex = newBookmarkGroupList.findIndex(
@@ -118,7 +118,7 @@ export function AllBookmarkHall({
             );
             if (groupIndex !== -1) {
               const group = newBookmarkGroupList[groupIndex];
-              if (newGroup === oldGroup) {
+              if (finalNewGroup === oldGroup) {
                 group.children[oldIndex] = bookmark;
                 setBookmarkGroupList(newBookmarkGroupList);
                 return;
@@ -128,13 +128,13 @@ export function AllBookmarkHall({
             }
           }
           const groupIndex = newBookmarkGroupList.findIndex(
-            (group) => group.name === newGroup
+            (group) => group.name === finalNewGroup
           );
           const group =
             groupIndex > -1
               ? newBookmarkGroupList[groupIndex]
               : {
-                  name: newGroup,
+                  name: finalNewGroup,
                   children: [],
                 };
           if (groupIndex === -1) {
@@ -157,6 +157,12 @@ export function AllBookmarkHall({
             return;
           }
           groupItem.children.splice(index, 1);
+          if (
+            groupItem.children.length === 0 &&
+            groupName.trim().length === 0
+          ) {
+            newBookmarkGroupList.splice(groupIndex, 1);
+          }
           setBookmarkGroupList(newBookmarkGroupList);
         },
         renameBookmarkGroup(sourceGroupName, newGroupName) {
@@ -284,16 +290,19 @@ export function AllBookmarkHall({
               theme.bookmark === "light" ? "text-[#fff]" : "text-[#444]"
             }`}
           >
-            <div
-              className="pt-[12px] mr-[10px] text-[12px]   w-[200px] h-full"
-              onContextMenu={handleBookmarkGroupContextMenu(group)}
-            >
-              {editMode ? (
-                <div>{group.name}</div>
-              ) : (
-                <h3 className="truncate  font-[400]  text-[12px] leading-none my-[0]">
+            <div className="pt-[12px] mr-[10px] text-[12px]   w-[200px] h-full">
+              {group.name.trim().length > 0 ? (
+                <h3
+                  className="truncate  font-[400]  text-[12px] leading-none my-[0] hover:cursor-pointer"
+                  onContextMenu={handleBookmarkGroupContextMenu(group)}
+                >
                   {group.name}
                 </h3>
+              ) : (
+                <div className="flex items-center gap-[4px]">
+                  <RiBox2Line size={12} />
+                  未命名分组
+                </div>
               )}
             </div>
             <div className="max-w-[1020px] group ">

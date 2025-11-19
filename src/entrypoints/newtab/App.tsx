@@ -100,7 +100,6 @@ export function App() {
         </div>
         <div className={styles["bookmark-hall"]}>
           <AllBookmarkHall
-            editMode={false}
             applyParentBookmarkOperate={applyParentBookmarkOperate}
           />
         </div>
