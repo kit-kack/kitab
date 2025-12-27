@@ -23,6 +23,7 @@ export function SearchCenter() {
     SEARCH_ENGINE_LIST_ATOM
   );
   const [theme] = useAtom(THEME_ATOM);
+  const isComposing = useRef<boolean>(false);
 
   const searchEngineChooser = useMemo(() => {
     function adjustToTop(ind: number) {
@@ -94,6 +95,10 @@ export function SearchCenter() {
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     let index = -1;
     if (e.code === "Enter") {
+      if (isComposing.current) {
+        return;
+      }
+
       // direct
       index = 0;
     } else if (e.altKey && e.code.startsWith("Digit")) {
@@ -133,7 +138,9 @@ export function SearchCenter() {
               value={search}
               onInput={handleChange}
               onKeyDown={handleKeyDown}
-              onBlur={() => setFocus(false)}
+              onCompositionStart={() => (isComposing.current = true)}
+              onCompositionEnd={() => (isComposing.current = false)}
+              onBlur={() => setFocus(true)}
               radius="xl"
               leftSection={searchEngineChooser}
               leftSectionPointerEvents={focus ? "all" : void 0}
@@ -176,7 +183,9 @@ export function SearchCenter() {
                   key={item + index}
                   styles={{
                     label: {
-                      color: theme.search === "light" ? "#fff" : "#ccc",
+                      color: theme.search === "light" ? "#ffffffe6" : "#ccc",
+                      fontSize: "small",
+                      fontWeight: "normal",
                     },
                   }}
                 >

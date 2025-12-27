@@ -1,7 +1,9 @@
+import preset0 from "@/assets/background/preset-00.png?url";
 import preset1 from "@/assets/background/preset-01.png?url";
 import preset2 from "@/assets/background/preset-02.jpg?url";
 import preset3 from "@/assets/background/preset-03.jpg?url";
 import preset4 from "@/assets/background/preset-04.jpg?url";
+import preset5 from "@/assets/background/preset-05.png?url";
 
 export interface SearchEngine {
   value: string;
@@ -38,11 +40,11 @@ export const DEFAULT_BG_PRESETS = [
   },
   {
     title: "预设1",
-    url: "https://w.wallhaven.cc/full/zp/wallhaven-zppyoj.png",
+    url: preset0,
   },
   {
     title: "预设2",
-    url: "https://cn.bing.com/th?id=OHR.SunbeamsForest_ZH-CN5358008117_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+    url: preset5,
   },
   {
     title: "预设3",
@@ -80,11 +82,10 @@ export const DEFAULT_ICO_APIS: IcoApi[] = [
     value: "yandex.net",
     url: "https://favicon.yandex.net/favicon/%u",
     default: true,
-    tip: " （啥都能搜🤫）",
   },
   {
-    value: "uomg.com",
-    url: "https://api.uomg.com/api/get.favicon?url=%u",
+    value: "favicon.im",
+    url: "https://favicon.im/%u",
     default: true,
   },
   {

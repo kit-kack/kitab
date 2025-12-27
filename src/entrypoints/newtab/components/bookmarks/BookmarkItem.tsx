@@ -219,7 +219,7 @@ export function BookmarkItem({
       variant="subtle"
       classNames={{
         root: `text-[16px] group mb-[16px] hover:backdrop-blur-[4px] transition-all duration-300 ${
-          theme.bookmark === "light" ? "hover:bg-[#fff1]!" : 'h'
+          theme.bookmark === "light" ? "hover:bg-[#fff1]!" : "hover:bg-[#3331]!"
         }`,
         label: "mr-auto",
       }}

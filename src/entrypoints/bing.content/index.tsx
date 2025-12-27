@@ -157,16 +157,28 @@ function controlWebSiteList(
 
 export default defineContentScript({
   matches: ["https://*.bing.com/search*"],
-  async main() {
-    // 获取Bing搜索结果网站列表
-    const webSiteList = readBingWebsiteList();
-    if (webSiteList.length === 0) {
-      return;
-    }
-    // 获取忽略黑名单列表
-    const ignoreList = await storage.getItem<string[]>("local:ignoreList", {
-      fallback: [],
+  async main(ctx) {
+    const action = async () => {
+      // 获取Bing搜索结果网站列表
+      const webSiteList = readBingWebsiteList();
+      if (webSiteList.length === 0) {
+        return;
+      }
+      // 获取忽略黑名单列表
+      const ignoreList = await storage.getItem<string[]>("local:ignoreList", {
+        fallback: [],
+      });
+      controlWebSiteList(webSiteList, ignoreList, true);
+    };
+
+    const observer = new MutationObserver(action);
+    observer.observe(document.head, {
+      childList: true,
+      subtree: true,
     });
-    controlWebSiteList(webSiteList, ignoreList, true);
+
+    ctx.onInvalidated(() => {
+      observer.disconnect();
+    });
   },
 });

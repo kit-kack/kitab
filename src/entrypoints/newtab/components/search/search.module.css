@@ -9,10 +9,10 @@
 .input {
   border: none !important;
   text-align: center !important;
-  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   background-color: transparent !important;
   backdrop-filter: blur(10px);
-  transition: background-color 0.25s;
+  transition: all 0.25s;
   color: var(--theme-text-color) !important;
 }
 .light {
@@ -43,12 +43,13 @@
 }
 .input.focus {
   background-color: var(--theme-input-focus-bg-color) !important;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .dropdown {
   border: none !important;
   padding: 4px !important;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(1.05);
   transition: all 0.25s;
 
   &.dark {
@@ -57,7 +58,7 @@
   }
 
   &.light {
-    background-color: transparent !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
 
     --mantine-color-primary-light-color: #eee;
     box-shadow: 0 2px 8px 0 rgba(99, 99, 99, 0.2) !important;

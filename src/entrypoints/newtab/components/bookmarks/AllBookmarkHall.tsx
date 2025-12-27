@@ -1,6 +1,16 @@
-import { WEBSITE_BOOKMARK_LIST_ATOM, WebsiteBookmark, WebsiteBookmarkGroup } from "../../store";
+import {
+  WEBSITE_BOOKMARK_LIST_ATOM,
+  WebsiteBookmark,
+  WebsiteBookmarkGroup,
+} from "../../store";
 import { Button, Stack, Text } from "@mantine/core";
-import { RiBox2Line, RiDeleteBinLine, RiEditLine } from "@remixicon/react";
+import {
+  RiArrowDownLine,
+  RiArrowUpLine,
+  RiBox2Line,
+  RiDeleteBinLine,
+  RiEditLine,
+} from "@remixicon/react";
 import { BookmarkItem, PureBookmarkItem } from "./BookmarkItem";
 import {
   closestCenter,
@@ -50,12 +60,16 @@ export interface BookmarkOperate {
   deleteGroup: (groupName: string) => void;
 
   getGroupList: () => string[];
+
+  adjustGroupPos: (groupName: string, newIndex: number) => void;
 }
 
 export function AllBookmarkHall({
   applyParentBookmarkOperate,
 }: AllBookmarkHallProps) {
-  const [bookmarkGroupList, setBookmarkGroupList] = useAtom(WEBSITE_BOOKMARK_LIST_ATOM)
+  const [bookmarkGroupList, setBookmarkGroupList] = useAtom(
+    WEBSITE_BOOKMARK_LIST_ATOM
+  );
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -187,6 +201,21 @@ export function AllBookmarkHall({
         getGroupList() {
           return bookmarkGroupList.map((item) => item.name);
         },
+        adjustGroupPos(groupName, newIndex) {
+          const newBookmarkGroupList = [...bookmarkGroupList];
+          const groupIndex = newBookmarkGroupList.findIndex(
+            (group) => group.name === groupName
+          );
+          if (groupIndex === -1) {
+            return;
+          }
+          newBookmarkGroupList.splice(
+            newIndex,
+            0,
+            newBookmarkGroupList.splice(groupIndex, 1)[0]
+          );
+          setBookmarkGroupList(newBookmarkGroupList);
+        },
       }),
     [bookmarkGroupList, setBookmarkGroupList]
   );
@@ -215,7 +244,10 @@ export function AllBookmarkHall({
     return null;
   };
 
-  const handleBookmarkGroupContextMenu = (group: WebsiteBookmarkGroup) =>
+  const handleBookmarkGroupContextMenu = (
+    group: WebsiteBookmarkGroup,
+    index: number
+  ) =>
     showContextMenu((close) => {
       return (
         <Stack
@@ -269,6 +301,32 @@ export function AllBookmarkHall({
           >
             删除分组
           </Button>
+          {index > 0 && (
+            <Button
+              variant="subtle"
+              justify="space-between"
+              rightSection={<RiArrowUpLine size={16} />}
+              size="xs"
+              onClick={() => {
+                bookmarkOperate.adjustGroupPos(group.name, index - 1);
+              }}
+            >
+              上移分组
+            </Button>
+          )}
+          {index < bookmarkGroupList.length - 1 && (
+            <Button
+              variant="subtle"
+              justify="space-between"
+              rightSection={<RiArrowDownLine size={16} />}
+              size="xs"
+              onClick={() => {
+                bookmarkOperate.adjustGroupPos(group.name, index + 1);
+              }}
+            >
+              下移分组
+            </Button>
+          )}
         </Stack>
       );
     });
@@ -282,7 +340,7 @@ export function AllBookmarkHall({
         onDragMove={handleDragMove}
         onDragEnd={handleDragEnd}
       >
-        {bookmarkGroupList.map((group) => (
+        {bookmarkGroupList.map((group, index) => (
           <div
             key={group.name}
             className={`grid grid-cols-[200px_1fr] ${
@@ -293,7 +351,7 @@ export function AllBookmarkHall({
               {group.name.trim().length > 0 ? (
                 <h3
                   className="truncate  font-[400]  text-[12px] leading-none my-[0] hover:cursor-pointer"
-                  onContextMenu={handleBookmarkGroupContextMenu(group)}
+                  onContextMenu={handleBookmarkGroupContextMenu(group, index)}
                 >
                   {group.name}
                 </h3>
