@@ -13,7 +13,6 @@ export interface LabelForProps {
 
 export function LabelFor({ label, children }: LabelForProps) {
   const id = useId();
-  console.log(id);
 
   const childrenWithId = Children.map(children, (child) => {
     if (isValidElement(child)) {

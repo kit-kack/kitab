@@ -1,10 +1,10 @@
 import JSZip from "jszip";
 // @ts-ignore
 import { saveAs } from "file-saver";
+import { getRemainBackupKeys } from "./git-repo-action";
 
-const BACKUP_KEYS = [
+export const BACKUP_KEYS = [
   "website_bookmark_list",
-  "theme",
   "ignoreList",
   "search_engine_list",
   "search_forecast_index",
@@ -13,10 +13,11 @@ const BACKUP_KEYS = [
 /**
  * 导出备份
  */
-export function exportBackup() {
+export async function exportBackup() {
   const zip = new JSZip();
-  Promise.all(
-    BACKUP_KEYS.map((key) =>
+  const remainKeys = await getRemainBackupKeys();
+  await Promise.all(
+    remainKeys.map((key) =>
       storage
         .getItem<string>(`local:${key}`, { fallback: "" })
         .then((res) => [key, res])

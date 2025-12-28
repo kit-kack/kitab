@@ -20,6 +20,7 @@
     "@mantine/core": "^8.3.7",
     "@mantine/hooks": "^8.3.7",
     "@mantine/modals": "^8.3.7",
+    "@mantine/notifications": "^8.3.10",
     "@remixicon/react": "^4.7.0",
     "@tailwindcss/vite": "^4.1.16",
     "ahooks": "^3.9.6",

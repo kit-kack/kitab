@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { DEFAULT_SEARCH_ENGINES } from "./defaults";
 import { useStorageAtom } from "@/utils/jotai";
+import { GitRepoStorage } from "@/utils/git-repo-action";
 
 /**
  * ico api index
@@ -32,6 +33,11 @@ export interface WebsiteBookmarkGroup {
   name: string;
   children: WebsiteBookmark[];
 }
+
+export const CURRENT_SCENE_ATOM = useStorageAtom<string>(
+  "local:current_scene",
+  "default"
+);
 
 /**
  * website bookmark list
@@ -76,3 +82,20 @@ export const THEME_ATOM = useStorageAtom<Theme<ThemeVariant>>("local:theme", {
   bookmark: "system",
   glass: false,
 });
+
+export const GIT_INFO_ATOM = useStorageAtom<GitRepoStorage>(
+  "local:git_info_temp",
+  {
+    api: "Github",
+    token: "",
+    user: "",
+    repo: "",
+    branch: "",
+    avatar: "",
+  }
+);
+
+export const GIT_FILE_SHA_ATOM = useStorageAtom<Record<string, string>>(
+  "local:git_file_sha_temp",
+  {}
+);

@@ -3,11 +3,11 @@ import {
   AllBookmarkHall,
   BookmarkOperate,
 } from "./components/bookmarks/AllBookmarkHall";
-import { RiAddLine, RiSettingsLine } from "@remixicon/react";
+import { RiAddLine, RiSettingsLine, RiTornadoLine } from "@remixicon/react";
 import { SearchCenter } from "./components/search/SearchCenter";
 import styles from "./app.module.css";
 import { useAtom } from "jotai";
-import { BG_PRESET_ATOM, INPUT_FOCUS_ATOM } from "./store";
+import { BG_PRESET_ATOM, CURRENT_SCENE_ATOM, INPUT_FOCUS_ATOM } from "./store";
 import { useRef, useState } from "react";
 import { useMount } from "ahooks";
 import { SettingHall } from "./components/settings/SettingHall";
@@ -15,6 +15,7 @@ import { useContextMenu } from "mantine-contextmenu";
 import { BOOKMARK_EDIT_CONTEXT_MODAL_ID } from "./components/bookmarks/BookmarkEditContextModal";
 import { modals } from "@mantine/modals";
 import { DEFAULT_BG_PRESETS } from "./store/defaults";
+import { SCENE_SWITCH_CONTEXT_MODAL_ID } from "./components/settings/components/SceneSwitchModal";
 
 export function App() {
   const [focus] = useAtom(INPUT_FOCUS_ATOM);
@@ -23,6 +24,7 @@ export function App() {
   const { showContextMenu } = useContextMenu();
   const bookmarkOperateRef = useRef<BookmarkOperate>(null);
   const [bgPresetIndex] = useAtom(BG_PRESET_ATOM);
+  const [currentScene] = useAtom(CURRENT_SCENE_ATOM);
 
   const applyParentBookmarkOperate = (bookmarkOperate: BookmarkOperate) => {
     bookmarkOperateRef.current = bookmarkOperate;
@@ -61,6 +63,24 @@ export function App() {
           }}
         >
           添加书签
+        </Button>
+        <Button
+          variant="subtle"
+          justify="space-between"
+          rightSection={<RiTornadoLine size={16} />}
+          size="xs"
+          onClick={() => {
+            modals.openContextModal({
+              modal: SCENE_SWITCH_CONTEXT_MODAL_ID,
+              title: "切换场景",
+              centered: true,
+              innerProps: {
+                originScene: currentScene,
+              },
+            });
+          }}
+        >
+          切换场景
         </Button>
         <Button
           variant="subtle"

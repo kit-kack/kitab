@@ -1,16 +1,27 @@
+import { CURRENT_SCENE_ATOM, GIT_INFO_ATOM } from "@/entrypoints/newtab/store";
+import { createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { syncConfFile } from "./git-repo-action";
+
+export const store = createStore();
 
 type Key = Parameters<(typeof storage)["getItem"]>[0];
 
-export function useStorageAtom<T>(key: Key, fallback: T) {
+export function useStorageAtom<T>(storageKey: Key, fallback: T) {
   const isArray = Array.isArray(fallback);
   return atomWithStorage(
-    key,
+    storageKey,
     fallback,
     {
       // @ts-ignore
       async getItem(key, initialValue) {
-        const value = await storage.getItem<T>(key as Key, {
+        let realKey = key;
+        if (key === "local:website_bookmark_list") {
+          const scene = await store.get(CURRENT_SCENE_ATOM);
+          realKey = key + "_" + scene;
+        }
+
+        const value = await storage.getItem<T>(realKey as Key, {
           fallback: initialValue,
         });
         if (!isArray) {
@@ -36,10 +47,31 @@ export function useStorageAtom<T>(key: Key, fallback: T) {
         return result;
       },
       async setItem(key, newValue) {
-        storage.setItem(key as Key, newValue);
+        let realKey = key;
+        if (key === "local:website_bookmark_list") {
+          const scene = await store.get(CURRENT_SCENE_ATOM);
+          realKey = key + "_" + scene;
+        }
+        storage.setItem(realKey as Key, newValue);
+        if (!realKey.endsWith("_temp")) {
+          // 去同步至git仓库
+          const gitInfo = await store.get(GIT_INFO_ATOM);
+          if (gitInfo && gitInfo.token) {
+            syncConfFile(
+              gitInfo,
+              realKey.substring("local:".length),
+              JSON.stringify(newValue)
+            );
+          }
+        }
       },
       async removeItem(key) {
-        storage.removeItem(key as Key);
+        let realKey = key;
+        if (key === "local:website_bookmark_list") {
+          const scene = await store.get(CURRENT_SCENE_ATOM);
+          realKey = key + "_" + scene;
+        }
+        storage.removeItem(realKey as Key);
       },
     },
     {

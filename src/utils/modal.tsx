@@ -1,9 +1,7 @@
 import { ConfirmModalProps, modals } from "@mantine/modals";
 import { RiAlertLine } from "@remixicon/react";
 
-export function showDangerModal(
-  props: Pick<ConfirmModalProps, "children" | "onConfirm">
-) {
+export function showDangerModal(props: ConfirmModalProps) {
   modals.openConfirmModal({
     title: (
       <div className="flex items-center gap-[4px]">

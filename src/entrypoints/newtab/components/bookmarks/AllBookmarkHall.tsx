@@ -221,7 +221,7 @@ export function AllBookmarkHall({
   );
 
   const renderBookmarkItems = (group: WebsiteBookmarkGroup) => {
-    if (group.children.length > 0) {
+    if (group.children != null && group.children.length > 0) {
       return group.children.map((bookmark, index) => (
         <BookmarkItem
           bookmark={bookmark}
@@ -275,32 +275,34 @@ export function AllBookmarkHall({
           >
             重命名分组
           </Button>
-          <Button
-            variant="subtle"
-            justify="space-between"
-            color="red"
-            rightSection={<RiDeleteBinLine size={16} />}
-            size="xs"
-            disabled={group.children?.length > 0}
-            onClick={() => {
-              showDangerModal({
-                children: (
-                  <span>
-                    是否删除 [
-                    <Text fw="bold" component="b">
-                      {group.name}
-                    </Text>
-                    ] 分组?
-                  </span>
-                ),
-                onConfirm() {
-                  bookmarkOperate.deleteGroup(group.name);
-                },
-              });
-            }}
-          >
-            删除分组
-          </Button>
+          {!(group.children?.length > 0) && (
+            <Button
+              variant="subtle"
+              justify="space-between"
+              color="red"
+              rightSection={<RiDeleteBinLine size={16} />}
+              size="xs"
+              onClick={() => {
+                showDangerModal({
+                  children: (
+                    <span>
+                      是否删除 [
+                      <Text fw="bold" component="b">
+                        {group.name}
+                      </Text>
+                      ] 分组?
+                    </span>
+                  ),
+                  onConfirm() {
+                    bookmarkOperate.deleteGroup(group.name);
+                  },
+                });
+              }}
+            >
+              删除分组
+            </Button>
+          )}
+
           {index > 0 && (
             <Button
               variant="subtle"
@@ -348,7 +350,7 @@ export function AllBookmarkHall({
             }`}
           >
             <div className="pt-[12px] mr-[10px] text-[12px]   w-[200px] h-full">
-              {group.name.trim().length > 0 ? (
+              {group.name != null && group.name.trim().length > 0 ? (
                 <h3
                   className="truncate  font-[400]  text-[12px] leading-none my-[0] hover:cursor-pointer"
                   onContextMenu={handleBookmarkGroupContextMenu(group, index)}
@@ -365,7 +367,7 @@ export function AllBookmarkHall({
             <div className="max-w-[1020px] group ">
               <SortableContext
                 items={
-                  group.children.length > 0
+                  group.children != null && group.children.length > 0
                     ? group.children.map((bookmark) => bookmark.name)
                     : ["empty-placeholder"]
                 }

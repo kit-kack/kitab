@@ -6,14 +6,15 @@ import {
   Stack,
   Tooltip,
   Image,
-  Switch,
   FileButton,
+  Avatar,
 } from "@mantine/core";
 import { Panel } from "../panel";
 import { LabelFor } from "../components/LabelFor";
 import {
   RiAppsLine,
   RiMoonFill,
+  RiRefreshLine,
   RiSunLine,
   RiVerifiedBadgeFill,
 } from "@remixicon/react";
@@ -22,9 +23,12 @@ import { useAtom } from "jotai";
 import {
   BaseThemeVariant,
   BG_PRESET_ATOM,
+  GIT_INFO_ATOM,
   THEME_ATOM,
 } from "@/entrypoints/newtab/store";
 import { importBackup } from "@/utils/backup";
+import { modals } from "@mantine/modals";
+import { GIT_REPO_INFO_CONTEXT_MODAL_ID } from "../components/GitRepoInfoModal";
 
 const BASE_THEME_LIST = [
   {
@@ -56,11 +60,50 @@ const BASE_THEME_LIST = [
 function Component() {
   const [bgPresetIndex, setBgPresetIndex] = useAtom(BG_PRESET_ATOM);
   const [theme, setTheme] = useAtom(THEME_ATOM);
+  const [gitInfo] = useAtom(GIT_INFO_ATOM);
+
+  function showGitHubTokenModal() {
+    modals.openContextModal({
+      modal: GIT_REPO_INFO_CONTEXT_MODAL_ID,
+      title: "远程Git仓库配置",
+      centered: true,
+      innerProps: {
+        originGitInfo: gitInfo,
+      },
+    });
+  }
+
   return (
     <form className="flex justify-between align-center flex-wrap justify-items-end gap-y-[8px] text-[12px]">
-      <LabelFor label="介绍">
-        <span>欢迎使用 kitab</span>
+      <LabelFor label="数据">
+        <div className="flex justify-end gap-[4px]">
+          <Button
+            variant="subtle"
+            size="xs"
+            leftSection={
+              gitInfo.user && gitInfo.avatar ? (
+                <Avatar src={gitInfo.avatar} alt={gitInfo.user} size={16} />
+              ) : (
+                <RiRefreshLine size={16} />
+              )
+            }
+            onClick={showGitHubTokenModal}
+          >
+            {gitInfo.user && gitInfo.avatar ? gitInfo.api + "同步中" : "未同步"}
+          </Button>
+          <Button variant="subtle" size="xs" onClick={exportBackup}>
+            导出
+          </Button>
+          <FileButton accept=".zip" onChange={importBackup}>
+            {(props) => (
+              <Button variant="subtle" size="xs" {...props}>
+                导入
+              </Button>
+            )}
+          </FileButton>
+        </div>
       </LabelFor>
+
       <Divider
         className="w-full basis-[100%]"
         labelPosition="left"
@@ -155,23 +198,6 @@ function Component() {
           </Grid.Col>
         ))}
       </Grid>
-      <Divider
-        className="w-full basis-[100%]"
-        labelPosition="left"
-        label="数据"
-      />
-      <div className="flex justify-start gap-[4px]">
-        <Button variant="subtle" size="xs" onClick={exportBackup}>
-          导出
-        </Button>
-        <FileButton accept=".zip" onChange={importBackup}>
-          {(props) => (
-            <Button variant="subtle" size="xs" {...props}>
-              导入
-            </Button>
-          )}
-        </FileButton>
-      </div>
     </form>
   );
 }
