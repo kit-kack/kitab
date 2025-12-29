@@ -1,9 +1,7 @@
-import { useAtom } from "jotai";
-import { ICO_API_INDEX_ATOM, WebsiteBookmark } from "../../store";
+import {  WebsiteBookmark } from "../../store";
 import { Autocomplete, Button, Input } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
-import { DefaultIco } from "../CacheableIco";
-import { getDirectIcoUrl } from "../../hooks/useCacheableIco";
+import { CacheableIco } from "../CacheableIco";
 import { useDebounceEffect } from "ahooks";
 import { BookmarkOperate } from "./AllBookmarkHall";
 
@@ -27,13 +25,14 @@ export function BookmarkEditContextModal({
     ? bookmarkOperate.getGroupList()
     : [];
 
-  const [icoApiIndex] = useAtom(ICO_API_INDEX_ATOM);
-  const [icoUrl, setIcoUrl] = useState<string | null>(
-    getDirectIcoUrl(localBookmark.url, icoApiIndex)
+  const [debouncedIcoUrl, setDebouncedIcoUrl] = useState<string>(
+    bookmark?.url || ""
   );
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useDebounceEffect(() => {
-    setIcoUrl(getDirectIcoUrl(localBookmark.url, icoApiIndex));
+    setDebouncedIcoUrl(localBookmark.url);
+    setRefreshKey((prev) => prev + 1);
   }, [localBookmark.url]);
 
   function saveBookmark() {
@@ -48,11 +47,11 @@ export function BookmarkEditContextModal({
         <Input
           value={localBookmark.name}
           leftSection={
-            icoUrl ? (
-              <img width={16} src={icoUrl} onError={() => setIcoUrl(null)} />
-            ) : (
-              <DefaultIco />
-            )
+            <CacheableIco
+              url={debouncedIcoUrl || ""}
+              disableCache
+              key={refreshKey}
+            />
           }
           onChange={(e) =>
             setLocalBookmark({ ...localBookmark, name: e.target.value })

@@ -2,7 +2,7 @@ import { useMount } from "ahooks";
 import { useAtom } from "jotai";
 import { ICO_API_INDEX_ATOM } from "../store";
 import { DEFAULT_ICO_APIS } from "../store/defaults";
-
+import { isInternalUrl } from "@/utils/isInternalUrl";
 
 export interface UseCacheableIcoOptions {
   url: string;
@@ -20,9 +20,9 @@ export interface UseCacheableIcoResult {
   loaded: boolean;
 }
 
-function getHostname(url: string) {
+function getHost(url: string) {
   try {
-    return new URL(url).hostname;
+    return new URL(url).host;
   } catch (_) {
     return null;
   }
@@ -36,22 +36,31 @@ export function useCacheableIco(
   const [icoApiIndex] = useAtom(ICO_API_INDEX_ATOM);
 
   useMount(async () => {
-    const hostname = getHostname(options.url);
-    if (!hostname) {
+    const host = getHost(options.url);
+    if (!host) {
       return;
     }
 
     // 先使用本地缓存
-    const cacheIcoUrl = await storage.getItem<string>(`local:ico-${hostname}`);
+    const cacheIcoUrl = await storage.getItem<string>(`local:ico-${host}`);
     if (cacheIcoUrl) {
       setIcoUrl(cacheIcoUrl);
       setLoaded(true);
       return;
     }
 
+    // 判断是否为内网地址
+    if (isInternalUrl(options.url)) {
+      // 先本地创建记录，后续跳转时解析网站ico
+      if ((await storage.getItem(`local:icofetch-${host}`)) === null) {
+        storage.setItem(`local:icofetch-${host}`, Date.now());
+      }
+      return;
+    }
+
     // 否则就去请求api
     const icoApi = DEFAULT_ICO_APIS[icoApiIndex];
-    const finalIcoUrl = icoApi.url.replace("%u", hostname);
+    const finalIcoUrl = icoApi.url.replace("%u", host);
 
     // 后续不走缓存
     if (icoApi.nonCacheable || options.disableCache) {
@@ -73,7 +82,7 @@ export function useCacheableIco(
         ctx && ctx.drawImage(img, 0, 0);
         const base64 = canvas.toDataURL();
         // 存入缓存
-        storage.setItem(`local:ico-${hostname}`, base64);
+        storage.setItem(`local:ico-${host}`, base64);
         setIcoUrl(base64);
         setLoaded(true);
       } catch (_) {}
@@ -87,20 +96,18 @@ export function getDirectIcoUrl(
   url: string,
   icoApiIndex: number
 ): string | null {
-  const hostname = getHostname(url);
-  if (!hostname) {
+  const host = getHost(url);
+  if (!host) {
     return null;
   }
   const icoApi = DEFAULT_ICO_APIS[icoApiIndex];
-  return icoApi.url.replace("%u", hostname);
+  return icoApi.url.replace("%u", host);
 }
 
-
-
 export function removeIcoCache(url: string) {
-  const hostname = getHostname(url);
-  if (!hostname) {
+  const host = getHost(url);
+  if (!host) {
     return;
   }
-  storage.removeItem(`local:ico-${hostname}`);
+  storage.removeItem(`local:ico-${host}`);
 }
